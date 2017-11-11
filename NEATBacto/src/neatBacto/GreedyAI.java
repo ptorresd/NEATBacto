@@ -3,13 +3,21 @@ package neatBacto;
 public class GreedyAI implements Player {
 	
 	Bacteria type;
+	double frecuency;
+	double timer;
 	
-	public GreedyAI(Bacteria type) {
+	public GreedyAI(Bacteria type,double frecuency) {
 		this.type=type;
+		this.frecuency=frecuency;
+		timer=0;
 	}
 	
 	@Override
-	public int[] play(Field field) {
+	public int[] play(Field field,double dt) {
+		timer+=dt*frecuency;
+		if(timer<1) return new int[20];
+		
+		timer-=1;
 		int[] ans;
 		ans=simplePlay(field);
 		if(ans[0]!=1 || ans[10]!=1) {
@@ -30,6 +38,7 @@ public class GreedyAI implements Player {
 				min=p.getUnits();
 			}
 		}
+		ans[obj+10]=1;
 		double defPow=0;
 		double offPow=0;
 		do {
@@ -78,6 +87,11 @@ public class GreedyAI implements Player {
 		ans[att]=1;
 		ans[obj+10]=1;
 		return ans;
+	}
+
+	@Override
+	public void reset() {
+		timer=0;
 	}
 	
 }
