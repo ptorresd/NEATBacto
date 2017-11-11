@@ -13,10 +13,11 @@ public class Attack {
 		this.objective=objective;
 	}
 	
-	void update(int dt){
+	void update(double dt){
 		missingTime-=dt;
 		if(missingTime<=0){
 			objective.recieveAttack(this);
+			
 		}
 	}
 
