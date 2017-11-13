@@ -25,6 +25,9 @@ public class Attack {
 		return type;
 	}
 	
+	public Phage getObjective(){
+		return objective;
+	}
 
 	public double getUnits() {
 		return units;

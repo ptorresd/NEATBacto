@@ -7,6 +7,7 @@ public class Phage {
 	private double x;
 	private double y;
 	private double units;
+	private double threat;
 	
 	public Phage(Field field){
 		radius=20;
@@ -14,6 +15,7 @@ public class Phage {
 		this.type=new Bacteria(0,0,3,0);
 		this.x=Math.random()*(640-2*radius)+radius;
 		this.y=Math.random()*(480-2*radius)+radius;
+		threat=0;
 		units=Math.random()*6+1;
 	}
 	
@@ -49,6 +51,7 @@ public class Phage {
 			double enemyUnits=attack.getUnits();
 			if(enemyStr*enemyUnits>units*type.getDefense()){
 				units=enemyUnits-units*type.getDefense()/enemyStr;
+				field.applyBonus(attack.getType(),type);
 				type=attack.getType();
 			}
 			else units-=enemyUnits*enemyStr/type.getDefense();
@@ -86,10 +89,19 @@ public class Phage {
 	}
 	
 	public void update(double dt) {
-		units+=dt*type.getReproduction();
+		if(units<=100)units+=dt*type.getReproduction();
+		else units-=dt*(5+0.2*(units-100));
 	}
 
 	public double getUnits() {
 		return units;
+	}
+	
+	void setThreat(double d){
+		threat=d;
+	}
+	
+	double getThreat(){
+		return threat;
 	}
 }
